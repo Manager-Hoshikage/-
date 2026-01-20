@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プラネタリウム 索星館</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&family=Shippori+Mincho:wght@400;500;600&family=Zen+Maru+Gothic:wght@300;400&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #00040a;
+            font-family: 'Kiwi Maru', serif;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* タイトル専用の繊細でシンプルな丸ゴシック設定 */
+        .title-font {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 300;      /* 細めのウェイトで繊細さを演出 */
+            letter-spacing: 0.6em; /* 字間を広く取り、モダンでシンプルな印象に */
+            text-indent: 0.6em;    /* センタリングの微調整 */
+            opacity: 0.9;
+        }
+
+        .star-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: linear-gradient(to bottom, rgba(0, 4, 10, 0.4), rgba(0, 4, 10, 0.8)), url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .bg-shooting-star {
+            position: absolute;
+            top: var(--star-top);
+            left: var(--star-left);
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+            animation: animate-star 3s linear infinite;
+            animation-delay: var(--star-delay);
+            opacity: 0;
+            z-index: -1;
+        }
+        .bg-shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, #fff, transparent);
+        }
+        @keyframes animate-star {
+            0% { transform: rotate(315deg) translateX(0); opacity: 0; }
+            70% { opacity: 1; }
+            100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; }
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, rgba(255,255,255,0));
+            animation: shoot 1.5s ease-out forwards;
+            z-index: 50;
+            pointer-events: none;
+        }
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-45deg); width: 0; opacity: 1; }
+            100% { transform: translateX(800px) translateY(-800px) rotate(-45deg); width: 200px; opacity: 0; }
+        }
+        
+        .glow-card:hover:not(.disabled) {
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
+            transform: translateY(-8px);
+        }
+        .fade-in {
+            animation: fadeIn 1.2s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 640px) {
+            .card-container {
+                gap: 0.75rem;
+            }
+            .title-font {
+                letter-spacing: 0.4em;
+                text-indent: 0.4em;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root" class="w-full"></div>
+    <div class="star-bg">
+        <div class="bg-shooting-star" style="--star-top: 5%; --star-left: 85%; --star-delay: 0s;"></div>
+        <div class="bg-shooting-star" style="--star-top: 25%; --star-left: 95%; --star-delay: 5s;"></div>
+        <div class="bg-shooting-star" style="--star-top: 15%; --star-left: 45%; --star-delay: 10s;"></div>
+    </div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
